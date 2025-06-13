@@ -5,7 +5,7 @@ hexo.extend.deployer.register("sftp", function(args) {
   const arg={
     ...process.env,
     ...args}
-  if (!arg.host || !arg.user) {
+  if (!arg.host || !arg.sshuser) {
     const help = [
       "You should argsure deployment settings in _config.yml first!",
       "",
@@ -32,10 +32,10 @@ hexo.extend.deployer.register("sftp", function(args) {
   }
 
   const config = {
-    host: arg.host,
-    port: arg.port || 22,
-    username: arg.user,
-    password: arg.pass,
+    host: arg.sshhost,
+    port: arg.sshport || 22,
+    username: arg.sshuser,
+    password: arg.sshpass,
     privateKey: arg.privateKey,
     passphrase: arg.passphrase,
     agent: arg.agent || process.env.SSH_AUTH_SOCK,
