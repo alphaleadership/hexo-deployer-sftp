@@ -2,7 +2,10 @@ const sftp = require("sftp-sync-deploy");
 
 /** @type {import("@types/hexo")} */
 hexo.extend.deployer.register("sftp", function(args) {
-  if (!args.host || !args.user) {
+  const arg={
+    ...process.env,
+    ...args}
+  if (!arg.host || !arg.user) {
     const help = [
       "You should argsure deployment settings in _config.yml first!",
       "",
@@ -29,23 +32,23 @@ hexo.extend.deployer.register("sftp", function(args) {
   }
 
   const config = {
-    host: args.host,
-    port: args.port || 22,
-    username: args.user,
-    password: args.pass,
-    privateKey: args.privateKey,
-    passphrase: args.passphrase,
-    agent: args.agent || process.env.SSH_AUTH_SOCK,
+    host: arg.host,
+    port: arg.port || 22,
+    username: arg.user,
+    password: arg.pass,
+    privateKey: arg.privateKey,
+    passphrase: arg.passphrase,
+    agent: arg.agent || process.env.SSH_AUTH_SOCK,
     localDir: hexo.public_dir,
-    remoteDir: args.remotePath || "/",
+    remoteDir: arg.remotePath || "/",
   };
 
   /** @type { import('sftp-sync-deploy').SftpSyncOptions } */
   const options = {
-    dryRun: !!args.dryrun,
-    forceUpload: args.forceUpload,
+    dryRun: !!arg.dryrun,
+    forceUpload: arg.forceUpload,
     excludeMode: "remove",
-    concurrency: args.concurrency || 100,
+    concurrency: arg.concurrency || 100,
     // exclude patterns (glob)
     // exclude: [
     //   'node_modules',
