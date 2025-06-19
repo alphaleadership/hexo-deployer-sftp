@@ -46,7 +46,7 @@ hexo.extend.deployer.register("sftp", function(args) {
   /** @type { import('sftp-sync-deploy').SftpSyncOptions } */
   const options = {
     dryRun: !!arg.dryrun,
-    forceUpload: arg.forceUpload,
+    forceUpload: arg.forceUpload||true,
     excludeMode: "remove",
     concurrency: arg.concurrency || 100,
     // exclude patterns (glob)
